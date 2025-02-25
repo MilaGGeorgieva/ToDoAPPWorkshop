@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+    frontend:        
+        networks:
+            - react-express
+        ports:
+            - 3000:3000
+        #image: frontend
+        build: ./frontend
+    backend:        
+        networks:
+            - react-express
+            - express-mongo
+        #image: backend
+        build: ./backend
+    mongo: 
+        image: mongo
+        volumes:
+            - ./data:/data/db       
+        networks:
+            - express-mongo
+        
+networks:
+    react-express:
+        external: true        
+    express-mongo:
+        external: true        

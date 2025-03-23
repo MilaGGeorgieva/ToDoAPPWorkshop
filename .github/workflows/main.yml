@@ -29,4 +29,4 @@ jobs:
       uses: docker/build-push-action@v6
       with:
           push: true
-          tags: milagg/ToDo2-frontend:latest    
+          tags: milagg/todo2-frontend:latest    

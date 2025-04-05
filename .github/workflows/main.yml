@@ -31,4 +31,4 @@ jobs:
           context: ./frontend
           file: ./frontend/Dockerfile
           push: true
-          tags: milagg/todo2-frontend:latest    
+          tags: milagg/todo2-frontend:latest, milagg/todo2-frontend:${{ github.sha }}-${{ github.run_number}}    

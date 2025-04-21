@@ -12,6 +12,10 @@ jobs:
     steps:
     - name: Repository checkout
       uses: actions/checkout@v4
+
+    - name: Shorten SHA
+      id:   shorten_sha
+      run:  echo "::set-output name=short_sha::$(echo ${GITHUB_SHA} | cut -c1-7)"
     
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v3  
@@ -31,7 +35,7 @@ jobs:
           context: ./frontend
           file: ./frontend/Dockerfile
           push: true
-          tags: milagg/todo2-frontend:latest, milagg/todo2-frontend:${{ github.sha }}-${{ github.run_number}}
+          tags: milagg/todo2-frontend:latest, milagg/todo2-frontend:${{ steps.shorten_sha.outputs.short_sha }}-${{ github.run_number}}
 
   build-backend:
     runs-on: ubuntu-latest
@@ -39,6 +43,10 @@ jobs:
     steps:
     - name: Repository checkout
       uses: actions/checkout@v4
+
+    - name: Shorten SHA
+      id:   shorten_sha
+      run:  echo "::set-output name=short_sha::$(echo ${GITHUB_SHA} | cut -c1-7)"
     
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v3  
@@ -58,4 +66,4 @@ jobs:
           context: ./backend
           file: ./backend/Dockerfile
           push: true
-          tags: milagg/todo2-backend:latest, milagg/todo2-backend:${{ github.sha }}-${{ github.run_number}}
+          tags: milagg/todo2-backend:latest, milagg/todo2-backend:${{ steps.shorten_sha.outputs.short_sha }}-${{ github.run_number}}

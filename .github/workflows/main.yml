@@ -31,4 +31,31 @@ jobs:
           context: ./frontend
           file: ./frontend/Dockerfile
           push: true
-          tags: milagg/todo2-frontend:latest, milagg/todo2-frontend:${{ github.sha }}-${{ github.run_number}}    
+          tags: milagg/todo2-frontend:latest, milagg/todo2-frontend:${{ github.sha }}-${{ github.run_number}}
+
+  build-backend:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Repository checkout
+      uses: actions/checkout@v4
+    
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v3  
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+    
+    - name: Login to DockerHub
+      uses: docker/login-action@v3
+      with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+         
+    - name: Build and push
+      uses: docker/build-push-action@v6
+      with:
+          context: ./backend
+          file: ./backend/Dockerfile
+          push: true
+          tags: milagg/todo2-backend:latest, milagg/todo2-backend:${{ github.sha }}-${{ github.run_number}}
